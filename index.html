@@ -4,13 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tidewell | Digital Banking</title>
-  <script src="https://jsdelivr.net"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f1f5f9; color: #0f172a; line-height: 1.5; }
     .hidden { display: none !important; }
     .container { max-width: 1040px; margin: 0 auto; padding: 0 18px; }
-    
+
     nav { background: #0B192C; color: #fff; border-bottom: 1px solid #1e293b; position: sticky; top: 0; z-index: 40; }
     .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; max-width: 1040px; margin: 0 auto; }
     .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 800; font-size: 20px; }
@@ -49,15 +48,21 @@
     .dash-banner { background: #0B192C; color: #fff; border-radius: 18px; padding: 24px; margin: 24px 0; }
     .acc-pill { display: inline-flex; align-items: center; gap: 8px; background: #1e293b; border: 1px solid #334155; padding: 6px 12px; border-radius: 8px; margin-top: 10px; font-size: 13px; }
     .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; }
-    .dash-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 40px; }
+    .dash-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 24px; }
     @media(min-width: 768px) { .dash-grid { grid-template-columns: 1fr 1.3fr; } }
 
-    .form-group { margin-bottom: 14px; }
-    label { display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px; }
-    input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
-      width: 100%; padding: 11px 13px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 15px; outline: none;
+    .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+    .profile-item { background: #f8fafc; padding: 10px 12px; border-radius: 10px; border: 1px solid #e2e8f0; }
+    .profile-label { font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 700; }
+    .profile-val { font-size: 13px; font-weight: 700; color: #0f172a; margin-top: 2px; word-break: break-word; }
+
+    .form-group { margin-bottom: 13px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    label { display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px; }
+    input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="tel"], input[type="date"], select {
+      width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; outline: none; background: #fff;
     }
-    input:focus { border-color: #0B192C; }
+    input:focus, select:focus { border-color: #0B192C; }
     .alert { padding: 11px 13px; border-radius: 10px; font-size: 13px; font-weight: 600; margin-bottom: 14px; }
     .alert-error { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
     .alert-success { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
@@ -67,10 +72,10 @@
     .text-green { color: #059669; font-weight: 800; }
     .text-red { color: #e11d48; font-weight: 800; }
 
-    .modal-backdrop { position: fixed; inset: 0; background: rgba(11,25,44,0.78); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50; }
-    .modal-box { background: #fff; border-radius: 18px; width: 100%; max-width: 420px; padding: 24px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.35); }
-    .close-btn { position: absolute; top: 14px; right: 16px; background: none; border: none; font-size: 24px; color: #64748b; cursor: pointer; }
-    .tabs { display: flex; background: #f1f5f9; padding: 4px; border-radius: 10px; margin-bottom: 18px; }
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(11,25,44,0.84); display: flex; align-items: center; justify-content: center; padding: 14px; z-index: 999; overflow-y: auto; }
+    .modal-box { background: #fff; border-radius: 18px; width: 100%; max-width: 450px; padding: 22px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.45); max-height: 92vh; overflow-y: auto; }
+    .close-btn { position: absolute; top: 10px; right: 14px; background: none; border: none; font-size: 26px; color: #64748b; cursor: pointer; }
+    .tabs { display: flex; background: #f1f5f9; padding: 4px; border-radius: 10px; margin-bottom: 16px; }
     .tab-btn { flex: 1; padding: 9px; border: none; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; background: transparent; color: #64748b; }
     .tab-btn.active { background: #fff; color: #0B192C; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
 
@@ -81,17 +86,17 @@
 
   <nav>
     <div class="nav-inner">
-      <a href="#" onclick="showLanding()" class="brand">
+      <a href="#" onclick="showLanding();return false;" class="brand">
         <div class="brand-icon">T</div>
         <span>Tidewell</span>
       </a>
       <div id="navAuthButtons" class="nav-actions">
-        <button onclick="openAuthModal('login')" class="btn btn-ghost">Login</button>
-        <button onclick="openAuthModal('signup')" class="btn btn-gold">Open Account</button>
+        <button type="button" onclick="openAuthModal('login')" class="btn btn-ghost">Login</button>
+        <button type="button" onclick="openAuthModal('signup')" class="btn btn-gold">Open Account</button>
       </div>
       <div id="navUserButtons" class="nav-actions hidden">
-        <button onclick="showDashboard()" class="btn btn-outline">Dashboard</button>
-        <button onclick="logoutUser()" class="btn btn-danger">Sign Out</button>
+        <button type="button" onclick="showDashboard()" class="btn btn-outline">Dashboard</button>
+        <button type="button" onclick="logoutUser()" class="btn btn-danger">Sign Out</button>
       </div>
     </div>
   </nav>
@@ -102,10 +107,10 @@
         <div>
           <span class="badge">Next-Gen Digital Banking</span>
           <h1>Banking that keeps its <span class="gold">promises.</span></h1>
-          <p>Open an instant digital account in seconds, receive your unique 10-digit account number, and send instant zero-fee transfers to any Tidewell member.</p>
+          <p>Complete your digital onboarding in seconds, receive your unique 10-digit account number, and send instant zero-fee transfers to any Tidewell member.</p>
           <div class="hero-btns">
-            <button onclick="openAuthModal('signup')" class="btn btn-gold" style="padding:14px 22px;font-size:15px;">Create Free Account</button>
-            <button onclick="openAuthModal('login')" class="btn btn-outline" style="padding:14px 22px;font-size:15px;">Customer Login</button>
+            <button type="button" onclick="openAuthModal('signup')" class="btn btn-gold" style="padding:14px 22px;font-size:15px;">Create Free Account</button>
+            <button type="button" onclick="openAuthModal('login')" class="btn btn-outline" style="padding:14px 22px;font-size:15px;">Customer Login</button>
           </div>
         </div>
 
@@ -120,8 +125,8 @@
           <div class="divider"></div>
           <div style="font-size:13px;display:flex;flex-direction:column;gap:10px;color:#cbd5e1;">
             <div class="row-between"><span>Account Number</span><span class="mono" style="color:#fff;">Auto-Generated (10 Digits)</span></div>
+            <div class="row-between"><span>Routing / Bank Code</span><span class="mono" style="color:#fff;">021000021 • TWL</span></div>
             <div class="row-between"><span>Peer Transfers</span><span class="gold" style="font-weight:700;">Instant & $0.00 Fee</span></div>
-            <div class="row-between"><span>Savings Yield</span><span style="color:#34d399;font-weight:700;">4.65% APY</span></div>
           </div>
         </div>
       </div>
@@ -140,17 +145,3 @@
           <p style="font-size:14px;color:#475569;">Enter any registered user's 10-digit account number to transfer funds with live balance updates.</p>
         </div>
         <div class="card">
-          <h3 style="font-size:17px;margin-bottom:6px;">3. Permanent Ledger</h3>
-          <p style="font-size:14px;color:#475569;">Every deposit, transfer, and receipt is recorded permanently in your Tidewell transaction history.</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <section id="dashboardView" class="hidden container">
-    <div class="dash-banner">
-      <div class="row-between" style="flex-wrap:wrap;gap:18px;">
-        <div>
-          <div style="font-size:13px;color:#94a3b8;">Welcome back,</div>
-          <h1 id="dashUserName" style="font-size:26px;font-weight:800;">Loading...</h1>
-          <div class="acc-pill">
