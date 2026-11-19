@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tidewell | Digital Banking</title>
+  <script src="https://tailwindcss.com"></script>
+  <script src="https://jsdelivr.net"></script>
+  <link href="https://googleapis.com" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .navy-bg { background-color: #0B192C; }
+    .navy-card { background-color: #132743; }
+    .gold-text { color: #D4AF37; }
+    .gold-bg { background-color: #D4AF37; }
+    .gold-bg:hover { background-color: #C09B2D; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+
+  <!-- Navigation Bar -->
+  <nav class="navy-bg text-white sticky top-0 z-40 border-b border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="#" onclick="showLanding()" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-lg gold-bg flex items-center justify-center font-extrabold text-slate-950 text-lg">T</div>
+        <span class="text-xl font-bold tracking-tight">Tidewell</span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#features" onclick="showLanding()" class="hover:text-white transition">Personal Banking</a>
+        <a href="#accounts" onclick="showLanding()" class="hover:text-white transition">Accounts</a>
+        <a href="#calculator" onclick="showLanding()" class="hover:text-white transition">Calculators</a>
+      </div>
+
+      <div id="navAuthButtons" class="flex items-center gap-3">
+        <button onclick="openAuthModal('login')" class="px-4 py-2 text-sm font-semibold text-white hover:text-amber-300 transition">Login</button>
+        <button onclick="openAuthModal('signup')" class="px-4 py-2 text-sm font-semibold rounded-lg gold-bg text-slate-950 transition shadow">Open Account</button>
+      </div>
+
+      <div id="navUserButtons" class="hidden flex items-center gap-3">
+        <button onclick="showDashboard()" class="px-4 py-2 text-sm font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-white transition">Dashboard</button>
+        <button onclick="logoutUser()" class="px-3 py-2 text-sm font-semibold text-rose-400 hover:text-rose-300 transition">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- LANDING PAGE VIEW -->
+  <main id="landingView">
+    <!-- Hero Section -->
+    <section class="navy-bg text-white py-16 md:py-24 px-4">
+      <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-slate-800 gold-text border border-amber-500/30 mb-5">
+            Next-Gen Digital Banking
+          </span>
+          <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-5">
+            Banking that keeps its <span class="gold-text">promises.</span>
+          </h1>
+          <p class="text-slate-300 text-lg mb-8 leading-relaxed">
+            Open an instant digital account in seconds, receive your unique 10-digit account number, and send instant zero-fee transfers to any Tidewell member.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <button onclick="openAuthModal('signup')" class="px-6 py-3.5 rounded-xl gold-bg text-slate-950 font-bold text-base shadow-lg transition">
+              Create Free Account
+            </button>
+            <button onclick="openAuthModal('login')" class="px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-base border border-slate-700 transition">
+              Customer Login
+            </button>
+          </div>
+        </div>
+
+        <!-- Hero Preview Card -->
+        <div class="navy-card rounded-2xl p-6 md:p-8 border border-slate-700/80 shadow-2xl">
+          <div class="flex justify-between items-center mb-6">
+            <div>
+              <p class="text-xs uppercase tracking-wider text-slate-400">Instant Welcome Bonus</p>
+              <p class="text-3xl font-extrabold text-white mt-1">$5,000.00</p>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Active</span>
+          </div>
+          <div class="space-y-3 text-sm border-t border-slate-700 pt-5">
+            <div class="flex justify-between text-slate-300">
+              <span>Account Number</span>
+              <span class="font-mono font-semibold text-white">Auto-Generated (10 Digits)</span>
+            </div>
+            <div class="flex justify-between text-slate-300">
+              <span>Peer-to-Peer Transfers</span>
+              <span class="font-semibold gold-text">Instant & $0.00 Fee</span>
+            </div>
+            <div class="flex justify-between text-slate-300">
+              <span>Savings APY</span>
+              <span class="font-semibold text-emerald-400">4.65% APY</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 px-4 max-w-6xl mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="text-3xl font-extrabold text-slate-900 mb-3">Built for speed, clarity, and control</h2>
+        <p class="text-slate-600">Everything you need to manage your money and transfer funds seamlessly across accounts.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-11 h-11 rounded-xl navy-bg gold-text flex items-center justify-center font-bold text-lg mb-4">01</div>
+          <h3 class="text-lg font-bold mb-2">Instant Account Numbers</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">Sign up in seconds and immediately receive a unique 10-digit account number funded with $5,000.00 to test transfers.</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-11 h-11 rounded-xl navy-bg gold-text flex items-center justify-center font-bold text-lg mb-4">02</div>
+          <h3 class="text-lg font-bold mb-2">Real-Time Transfers</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">Enter any registered user's 10-digit account number to transfer funds with live balance updates and receipts.</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-11 h-11 rounded-xl navy-bg gold-text flex items-center justify-center font-bold text-lg mb-4">03</div>
+          <h3 class="text-lg font-bold mb-2">High-Yield Savings</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">Grow your reserves automatically with competitive interest rates and zero monthly maintenance fees.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Account Tiers -->
+    <section id="accounts" class="py-16 px-4 bg-white border-y border-slate-200">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-extrabold text-center text-slate-900 mb-10">Simple, transparent accounts</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50">
+            <h3 class="text-xl font-bold mb-1">Essential Checking</h3>
+            <p class="text-3xl font-extrabold text-slate-900 my-3">$0 <span class="text-sm font-normal text-slate-500">/ month</span></p>
+            <ul class="text-sm text-slate-600 space-y-2.5 mb-6">
+              <li>✓ Instant 10-digit account number</li>
+              <li>✓ Free Tidewell-to-Tidewell transfers</li>
+              <li>✓ Virtual debit card controls</li>
+            </ul>
+            <button onclick="openAuthModal('signup')" class="w-full py-2.5 rounded-xl navy-bg text-white font-semibold text-sm hover:opacity-95">Open Essential</button>
+          </div>
+          <div class="p-6 rounded-2xl border-2 border-amber-500 navy-bg text-white shadow-xl">
+            <span class="text-xs font-bold uppercase tracking-wider gold-text">Most Popular</span>
+            <h3 class="text-xl font-bold mt-1 mb-1">Tidewell Premier</h3>
+            <p class="text-3xl font-extrabold my-3">$12 <span class="text-sm font-normal text-slate-300">/ month</span></p>
+            <ul class="text-sm text-slate-300 space-y-2.5 mb-6">
+              <li>✓ 4.65% APY High-Yield Vaults</li>
+              <li>✓ Unlimited instant transfers</li>
+              <li>✓ Priority 24/7 concierge support</li>
+            </ul>
+            <button onclick="openAuthModal('signup')" class="w-full py-2.5 rounded-xl gold-bg text-slate-950 font-bold text-sm">Open Premier</button>
+          </div>
+          <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50">
+            <h3 class="text-xl font-bold mb-1">Business Treasury</h3>
+            <p class="text-3xl font-extrabold text-slate-900 my-3">$25 <span class="text-sm font-normal text-slate-500">/ month</span></p>
+            <ul class="text-sm text-slate-600 space-y-2.5 mb-6">
+              <li>✓ Multi-user team permissions</li>
+              <li>✓ Bulk vendor payouts</li>
+              <li>✓ Dedicated treasury advisor</li>
+            </ul>
+            <button onclick="openAuthModal('signup')" class="w-full py-2.5 rounded-xl navy-bg text-white font-semibold text-sm hover:opacity-95">Open Business</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Loan & Savings Calculator -->
+    <section id="calculator" class="py-16 px-4 max-w-4xl mx-auto">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm">
+        <h2 class="text-2xl font-extrabold text-slate-900 mb-2">Loan & Repayment Estimator</h2>
+        
