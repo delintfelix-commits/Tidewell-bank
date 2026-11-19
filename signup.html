@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Open an Account — Tidewell</title>
+  <style>
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { margin: 0; background: #0c1938; color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+    .card { background: #13234a; border: 1px solid #263b6e; border-radius: 16px; width: 100%; max-width: 440px; padding: 28px; box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; margin-bottom: 20px; }
+    .progress { display: flex; gap: 8px; margin-bottom: 24px; }
+    .bar { height: 5px; flex: 1; background: #263b6e; border-radius: 99px; transition: 0.3s; }
+    .bar.active { background: #e8bd68; }
+    h2 { margin: 0 0 8px; font-size: 22px; }
+    p.sub { margin: 0 0 20px; color: #b5c2de; font-size: 14px; }
+    label { display: block; font-size: 13px; color: #cfd9ee; margin-bottom: 6px; }
+    input, select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #2f467d; background: #0c1938; color: #fff; font-size: 15px; margin-bottom: 16px; }
+    input:focus, select:focus { outline: none; border-color: #e8bd68; }
+    .btn { width: 100%; padding: 14px; border-radius: 10px; border: none; background: #e8bd68; color: #0c1938; font-weight: 700; font-size: 16px; cursor: pointer; }
+    .btn-secondary { background: transparent; border: 1px solid #2f467d; color: #fff; margin-top: 10px; }
+    .step { display: none; }
+    .step.active { display: block; }
+    .notice { font-size: 12px; color: #8fa1c7; text-align: center; margin-top: 18px; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="brand">≈ Tidewell</div>
+
+  <div class="progress">
+    <div class="bar active" id="bar1"></div>
+    <div class="bar" id="bar2"></div>
+    <div class="bar" id="bar3"></div>
+  </div>
+
+  <form id="signupForm">
+    <!-- STEP 1 -->
+    <div class="step active" id="step1">
+      <h2>Personal details</h2>
+      <p class="sub">Step 1 of 3 — Tell us who you are.</p>
+
+      <label>Full legal name</label>
+      <input type="text" id="fullName" placeholder="e.g. Felix Delint" required />
+
+      <label>Email address</label>
+      <input type="email" id="email" placeholder="you@example.com" required />
+
+      <label>Phone number</label>
+      <input type="tel" id="phone" placeholder="+234 800 000 0000" required />
+
+      <button type="button" class="btn" onclick="nextStep(2)">Continue →</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step" id="step2">
+      <h2>Verify your identity</h2>
+      <p class="sub">Step 2 of 3 — Required by banking regulations.</p>
+
+      <label>Date of birth</label>
+      <input type="date" id="dob" required />
+
+      <label>Residential address</label>
+      <input type="text" id="address" placeholder="Street address, City, State" required />
+
+      <label>ID Type & Number (Demo)</label>
+      <input type="text" id="idNumber" placeholder="Enter sample BVN, NIN, or SSN" required />
+
+      <button type="button" class="btn" onclick="nextStep(3)">Continue →</button>
+      <button type="button" class="btn btn-secondary" onclick="nextStep(1)">← Back</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step" id="step3">
+      <h2>Choose your account</h2>
+      <p class="sub">Step 3 of 3 — No monthly fees, ever.</p>
+
+      <label>Account type</label>
+      <select id="accountType">
+        <option value="Essential Checking">Essential Checking (No monthly fees)</option>
+        <option value="High-Yield Savings">High-Yield Savings (4.35% APY)</option>
+      </select>
+
+      <label>Create a 4-digit security PIN</label>
+      <input type="password" id="pin" maxlength="4" placeholder="••••" required />
+
+      <button type="submit" class="btn">Create my account →</button>
+      <button type="button" class="btn btn-secondary" onclick="nextStep(2)">← Back</button>
+    </div>
+  </form>
+
+  <p class="notice">Demo banking experience only. Do not enter real government IDs or sensitive passwords.</p>
+</div>
+
+<script>
+  function nextStep(step) {
+    document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+    document.getElementById('step' + step).classList.add('active');
+
+    document.getElementById('bar1').classList.toggle('active', step >= 1);
+    document.getElementById('bar2').classList.toggle('active', step >= 2);
+    document.getElementById('bar3').classList.toggle('active', step >= 3);
+  }
+
+  document.getElementById('signupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const userData = {
+      name: document.getElementById('fullName').value,
+      email: document.getElementById('email').value,
+      accountType: document.getElementById('accountType').value,
+      accountNumber: '30' + Math.floor(10000000 + Math.random() * 90000000),
+      balance: '0.00'
+    };
+
+    localStorage.setItem('tidewellUser', JSON.stringify(userData));
+
+    // Sends the user back to index.html (or change to dashboard.html if you have a separate file)
+    window.location.href = 'index.html';
+  });
+</script>
+
+</body>
+</html>
